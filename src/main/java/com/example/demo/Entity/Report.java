@@ -22,20 +22,20 @@ public class Report {
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column
 	private String content;
-	
+
 	@Column(name = "created_date", insertable = false, updatable = false)
 	private Date createdDate;
-	
-	@Column(name = "updated_date", insertable = false, updatable = false)
-	private Date updateDate;
-	
+
+	@Column(name = "updated_date", insertable = false, updatable = true)
+	private Date updatedDate;
+
 	@PreUpdate
-	public void onPrePersit() {
+	public void onPrePersist() {
 		Date date = new Date();
-		this.updateDate = date;
+		this.updatedDate = date;
 	}
-	
+
 }
