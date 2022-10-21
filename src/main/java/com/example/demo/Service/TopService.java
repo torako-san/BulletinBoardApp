@@ -10,23 +10,24 @@ import com.example.demo.Repository.TopRepository;
 
 @Service
 public class TopService {
-	
+
 	@Autowired
 	TopRepository topRepository;
-	
-	//  レコード全件取得
+
+	// レコード全件取得
 	public List<Report> findAllReport() {
-		//　降順に変更
+		// 降順に変更
 		return topRepository.findAllByOrderByUpdatedDateDesc();
 	}
-	
+
 	// レコード追加
 	public void saveReport(Report report) {
 		topRepository.save(report);
 	}
-	
-	//　レコード1件取得　（最新データ）
+
+	// レコード1件取得 （最新データ）
 	public Report findSelectedPost() {
 		return topRepository.findlatest();
 	}
+
 }

@@ -1,29 +1,29 @@
 $(document).ready(function(){
 	$('#submit').on('click', function(){
-		let content = $(".content").val(); 
-		
+		var content = $(".content").val();
+
 		$.ajax({
-			url: "/add", 
-			type: "POST", 
+			url: "/add",  // リクエストを送信するURLを指定（action属性のurlを抽出）
+			type: "POST",  // HTTPメソッドを指定（デフォルトはGET）
 			data: {
 				"content" : content
 			},
-			datatype: "json"
+			dataType: "json"
 		})
-		.done(function(data){
+		.done(function(data) {
 			var data_stringify = JSON.stringify(data);
-			var data_json = JSON.parse(stringify);
+			var data_json = JSON.parse(data_stringify);
 			var data_id = data_json["id"];
-			var dcontent = data_json["content"];
-			
-			$("#addContent").prepend('<h4>${content}</h4>');
-			$("conent").val("");
+			var content = data_json["content"];
+
+			$("#addContent").prepend(`<h4>${content}</h4>`);
+			$(".content").val("");
 		})
-		.fail(function(jqXHR, textStatis, errorThrown) {
-			alreat("errer!");
-			console.log("jqXHR			: " + jqXHR.status);
-			console.log("textStatus		: " + textStatus);
-			console.log("errorThrown	: " + errorThrow.message.status);
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			alert("error!");  //
+			console.log("jqXHR          : " + jqXHR.status);
+			console.log("textStatus     : " + textStatus);
+			console.log("errorThrown    : " + errorThrown.message);
 		})
-	})	
+	})
 })
