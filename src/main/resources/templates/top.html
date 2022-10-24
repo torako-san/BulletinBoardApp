@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charaset="UTF-8">
-		<tittle>一覧ページ</tittle>
-		<link hre="/css/style.css" rel="stylesheet" type="text/css">
-		<!-- jQueryを読み込み -->
+		<meta charset="UTF-8">
+		<title>一覧ページ</title>
+		<link href="/css/style.css" rel="stylesheet" type="text/css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<script src="/js/note.js"></script>
 	</head>
 	<body>
-		<form method="post" action="/add" style="margin: 20px 0,">
-			<input type="text" name="content" size="20" maxlength="200" class="content"/>
-			<button type="button" id="submit">投稿</button>
+		<h1>掲示板</h1>
+		<form method="post" action="/add" style="margin: 20px 0;">
+		    <input type="text" name="content" size="20" maxlength="200" class="content"/>
+		    <button type="button" id="submit">投稿する</button>
 		</form>
 		
 		<!-- DBから持ってきた内容を表示 -->
 		<div th:each="content : ${contents}" id="addContent">
-			<h4 th:text="{content.content}"></h4>
+			<h4 th:text="${content.content}"></h4>
 		</div>
 	</body>
-</html>			
+</html>	
