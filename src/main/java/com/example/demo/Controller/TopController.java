@@ -37,11 +37,9 @@ public class TopController {
 	
 	@PostMapping("/add")
 	@ResponseBody
-	public String addContent(@RequestParam String content) {
-		
-		Report report = new Report();
-		
-//		report.setContent(content);
+	public String addContent(@RequestParam String content) {		
+		Report report = new Report();	
+		report.setContent(content);
 		// 投稿をテーブルに格納
 		topService.saveReport(report);
 		
