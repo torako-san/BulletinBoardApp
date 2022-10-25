@@ -53,6 +53,17 @@ public class TopController {
 			
 	}
 	
+    private String GetJson(Report LatestPost){
+        String retVal = null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        try{
+            retVal = objectMapper.writeValueAsString(LatestPost);
+        } catch (JsonProcessingException e) {
+            System.err.println(e);
+        }
+        return retVal;
+    }
+	
 	@GetMapping("/Edit/{id}")
 	@ResponseBody
 	public String editContent(@PathVariable Integer id) {
@@ -60,7 +71,7 @@ public class TopController {
 		return getEditJson(report);
 	}
 	
-	private String GetJson(Report LatestPost) {
+	private String getEditJson(Report LatestPost) {
 		String retVal = null;
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
@@ -82,15 +93,15 @@ public class TopController {
 		
 		topService.saveReport(report);
 		
-		Report UserPost = topService.GetReport(id);
+		Report UsersPost = topService.GetReport(id);
 		
 		return UpdateJson(UsersPost);
 	}
 	
-	private String UpdateJson(Report UsersPost) {
+	private String UpdateJson(Report UsersPost){
 		String retVal = null;
 		ObjectMapper objectMapper = new ObjectMapper();
-		try {
+		try{
 			retVal = objectMapper.writeValueAsString(UsersPost);
 		} catch (JsonProcessingException e) {
 			System.err.println(e);
