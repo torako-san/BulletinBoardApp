@@ -70,34 +70,36 @@ public class TopController {
 		Report report = topService.GetReport(id);
 		return getEditJson(report);
 	}
-	
-	private String getEditJson(Report LatestPost) {
+
+	private String getEditJson(Report editContent){
 		String retVal = null;
 		ObjectMapper objectMapper = new ObjectMapper();
-		try {
-			retVal = objectMapper.writeValueAsString(LatestPost);
+		try{
+			retVal = objectMapper.writeValueAsString(editContent);
 		} catch (JsonProcessingException e) {
 			System.err.println(e);
 		}
 		return retVal;
 	}
-	
+
 	@PutMapping("/Updata/{id}")
 	@ResponseBody
-	public String updateContent (@PathVariable Integer id, @RequestParam String content) {
-		
+	public String updateContent (@PathVariable Integer id,@RequestParam  String content) {
+
 		Report report = new Report();
-		
+
 		report.setContent(content);
 		report.setId(id);
-		
+
+		// Update edited post
 		topService.saveReport(report);
-		
+
+		// get info users with reports
 		Report UsersPost = topService.GetReport(id);
-		
+
 		return UpdateJson(UsersPost);
 	}
-	
+
 	private String UpdateJson(Report UsersPost){
 		String retVal = null;
 		ObjectMapper objectMapper = new ObjectMapper();
