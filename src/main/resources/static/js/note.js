@@ -13,17 +13,135 @@ $(document).ready(function(){
 		.done(function(data) {
 			var data_stringify = JSON.stringify(data);
 			var data_json = JSON.parse(data_stringify);
+
 			var data_id = data_json["id"];
 			var content = data_json["content"];
 
-			$("#addContent").prepend(`<h4>${content}</h4>`);
+			$("#addContent").after(`
+			<div class="addContent${data_id}">
+				<h4>${content}</h4>
+
+				<!-- 編集ボタン -->
+				<div  style="display:inline;" class="edit${data_id}">
+					<a action="/Edit/${data_id}" method="get">
+						<button type="button"　onclick="getEditFunk('${data_id}')">編集</button>
+					</a>
+				</div>
+			</div>`);
+
 			$(".content").val("");
 		})
 		.fail(function(jqXHR, textStatus, errorThrown) {
-			alert("error!");  //
+			alert("error!");
 			console.log("jqXHR          : " + jqXHR.status);
 			console.log("textStatus     : " + textStatus);
 			console.log("errorThrown    : " + errorThrown.message);
 		})
 	})
 })
+
+
+function getEditFunk(id) {
+
+	var edit_url = "/Edit/" + id;
+
+	$.ajax({
+		url: edit_url,
+		type: "GET",
+		data: {
+			"id": id
+		},
+		dataType: "json"
+	})
+	.done(function(data) {
+
+		var data_id = data["id"];
+		var content = data["content"];
+		// 追加、削除先を指定
+		var edit_btn = ".edit" + data_id;
+
+		// 更新ボタンを追加
+		$(edit_btn).before(`
+		<div style="display:inline;" class="update${data_id}">
+			<a action="/Update/${data_id}" method="put">
+				<button type="button" onclick="UpdateFunk('${data_id}')">更新</button>
+			</a>
+		</div>`);
+
+		// 編集ボタンを削除
+		$(edit_btn).remove();
+
+		var content_edit = "#content" + data_id;
+		// 編集欄を表示
+		$(content_edit).after(`
+		    <div id="content${data_id}" style="margin: 1rem 0;">
+				<input type="text" name="content" size="20" maxlength="200" id="update_content${data_id}"
+		    	value="${content}"/>
+		    </div>`);
+		// 元投稿を削除
+		$(content_edit).remove();
+
+	})
+	.fail(function(jqXHR, textStatus, errorThrown) {
+		alert("error!");
+		console.log("jqXHR          : " + jqXHR.status);
+		console.log("textStatus     : " + textStatus);
+		console.log("errorThrown    : " + errorThrown.message);
+	})
+};
+
+function UpdateFunk(id) {
+
+	var updata_url = "/Updata/" + id;
+	var update_value = "#update_content" + id;
+	var update_content = $(update_value).val();
+
+	$.ajax({
+		url: updata_url,
+		type: "PUT",
+		data: {
+			"id": id,
+			"content": update_content
+		},
+		dataType: "json"
+	})
+	.done(function(data) {
+		var data_stringify = JSON.stringify(data);
+		var data_json = JSON.parse(data_stringify);
+
+		var data_id = data_json["id"];
+		var content = data_json["content"];
+
+		// 追加、削除先を指定
+		var update_btn = ".update" + data_id;
+
+		// 編集ボタンを追加
+		$(update_btn).before(`
+		<div style="display:inline;" class="edit${data_id}">
+			<a action="/Edit/${data_id}" method="get">
+				<button type="button" onclick="getEditFunk('${data_id}')">編集</button>
+			</a>
+		</div>`);
+
+		// 更新ボタンを削除
+		$(update_btn).remove();
+
+		var content_update = "#content" + data_id;
+		// 投稿を表示
+		$(content_update).after(`
+		    <div id="content${data_id}" style="margin: 1rem 0;">
+				<h4>${content}</h4>
+		    </div>`);
+
+		// 元投稿を削除
+		$(content_update).remove();
+
+	})
+	.fail(function(jqXHR, textStatus, errorThrown) {
+		alert("error!");
+		console.log("jqXHR          : " + jqXHR.status);
+		console.log("textStatus     : " + textStatus);
+		console.log("errorThrown    : " + errorThrown.message);
+	})
+
+};

@@ -29,5 +29,8 @@ public class TopService {
 	public Report findSelectedPost() {
 		return topRepository.findlatest();
 	}
-
+	
+	public Report GetReport(Integer id) {
+		return topRepository.findById(id).orElse(null);
+	}
 }
