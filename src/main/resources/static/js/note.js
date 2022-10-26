@@ -41,6 +41,7 @@ $(document).ready(function(){
 })
 
 
+// 編集機能 情報取得
 function getEditFunk(id) {
 
 	var edit_url = "/Edit/" + id;
@@ -89,7 +90,9 @@ function getEditFunk(id) {
 		console.log("errorThrown    : " + errorThrown.message);
 	})
 };
+// 編集機能 情報取得
 
+//編集機能 更新機能
 function UpdateFunk(id) {
 
 	var updata_url = "/Updata/" + id;
@@ -145,3 +148,4 @@ function UpdateFunk(id) {
 	})
 
 };
+//編集機能 更新機能
